@@ -17,6 +17,7 @@ class courseguide extends frontControllerApplication
 			'password' => NULL,
 			'table' => false,
 			'div' => strtolower (__CLASS__),
+			'tabUlClass' => 'tabsflat',
 			'jQuery' => true,
 			'usersAutocomplete' => false,
 			'databaseStrictWhere' => true,
