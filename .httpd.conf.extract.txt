@@ -1,0 +1,54 @@
+# Apache httpd.conf extract providing URL routing and other directives
+
+#   Example usage in httpd.conf:
+#   
+#   # Assessments
+#   Include /path/to/course-guide/.httpd.conf.extract.txt
+#   Use MacroCourseGuide "/teaching/courseguide" "Course guide" "/path/to/course-guide/:/path/to/php/libraries/"
+
+
+# Course guide
+<Macro MacroCourseGuide $applicationBaseUrl $description $includePath>
+	
+	<Location $applicationBaseUrl>
+		php_value include_path "$includePath"
+	</Location>
+	
+	Use MacroFrontControllerApplication "$applicationBaseUrl/" "$description"
+	
+	RewriteEngine on
+	RewriteRule ^$applicationBaseUrl/cloneyear.html$ $applicationBaseUrl/index.html?action=cloneyear [L,QSA]
+	# Viewing
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/$ $applicationBaseUrl/index.html?action=home&year=$1 [L,QSA]
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})$ $applicationBaseUrl/$1/ [R]
+	# Viewing - URLs with only the container (e.g. part1a/ )
+	# NB \1,\2 etc are a backreference in the test
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/$ $applicationBaseUrl/index.html?action=home&year=$1&container=$2 [L,QSA]
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/courseguide_\1_\2\.pdf$ $applicationBaseUrl/index.html?action=home&year=$1&container=$2&export=pdf [L,QSA]
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/([a-z0-9]+)$ $applicationBaseUrl/$1/$2/ [R]
+	# Viewing - URLs with container (e.g. part1a/plagiarism/ )
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)/$ $applicationBaseUrl/index.html?action=home&year=$1&moniker=$3&container=$2 [L,QSA]
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)/courseguide_\1_\2_\3\.pdf$ $applicationBaseUrl/index.html?action=home&year=$1&moniker=$3&container=$2&export=pdf [L,QSA]
+	RewriteRule ^$applicationBaseUrl/(current|20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)$ $applicationBaseUrl/$1/$2/$3/ [R]
+	# Editing
+	RewriteRule ^$applicationBaseUrl/edit/$ $applicationBaseUrl/index.html?action=edit&do=list [L,QSA]
+	RewriteRule ^$applicationBaseUrl/edit$ $applicationBaseUrl/edit/ [R]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/$ $applicationBaseUrl/index.html?action=edit&year=$1&do=list [L,QSA]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})$ $applicationBaseUrl/edit/$1/ [R]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/(add)\.html$ $applicationBaseUrl/index.html?action=edit&year=$1&do=$2 [L,QSA]
+	# Editing - URLs without container (e.g. undergraduate/ )
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([^/]+)/$ $applicationBaseUrl/index.html?action=edit&year=$1&moniker=$2&do=view [L,QSA]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([^/]+)$ $applicationBaseUrl/edit/$1/$2/ [R]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([^/]+)/(delete|edit|clone|contents).html$ $applicationBaseUrl/index.html?action=edit&year=$1&moniker=$2&container=&do=$3 [L,QSA]
+	# Editing - URLs with container (e.g. part1a/plagiarism/ )
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)/$ $applicationBaseUrl/index.html?action=edit&year=$1&moniker=$3&container=$2&do=view [L,QSA]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)$ $applicationBaseUrl/edit/$1/$2/$3/ [R]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)/(delete|edit|clone|contents).html$ $applicationBaseUrl/index.html?action=edit&year=$1&moniker=$3&container=$2&do=$4 [L,QSA]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)/version([1-9][0-9]*).html$ $applicationBaseUrl/index.html?action=edit&year=$1&moniker=$3&container=$2&do=view&version=$4 [L,QSA]
+	RewriteRule ^$applicationBaseUrl/edit/(20[0-9]{2}-[0-9]{2})/([a-z0-9]+)/([^/]+)/version([1-9][0-9]*)from([1-9][0-9]*).html$ $applicationBaseUrl/index.html?action=edit&year=$1&moniker=$3&container=$2&do=view&version=$4&fromVersion=$5 [L,QSA]
+	
+	<Location $applicationBaseUrl/>
+		php_value output_buffering 131072
+	</Location>
+	
+</Macro>

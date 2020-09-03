@@ -1,0 +1,32 @@
+
+#courseguide .metadata {float: right; clear: right; width: 300px; margin-left: 25px;}
+#courseguide ul.hierarchicallisting li strong {-webkit-animation: highlight 6s ease; animation: highlight 6s ease; font-weight: normal;}	/* @highlight already defined in generic.css */
+#courseguide .contextbox {clear: right; margin-left: 20px;}
+#courseguide .contextbox ul {margin-left: 8px; padding-left: 8px;}
+#courseguide .editable ul.hierarchicallisting li {list-style: none; padding: 0; margin: 2px; margin-left: 22px;}
+#courseguide .viewable ul.hierarchicallisting li a {font-size: 0.87em;}
+/* Bullet colouring technique: https://stackoverflow.com/questions/5306640/ */
+#courseguide .editable ul.hierarchicallisting li a.bulletgraysquare:before {content: '\0025FD'; font-size: 1.4em; color: #c7c7c7; padding-right: .3em; position: relative; top: -2px;}
+#courseguide .editable ul.hierarchicallisting li a.bulletgreen:before {content: '\002713'; font-size: 1.4em; color: #9c9; padding-right: 0.3em; position: relative; top: -2px;}
+#courseguide .editable ul.hierarchicallisting li a.bulletorange:before {content: '\002713'; font-size: 1.4em; color: orange; padding-right: 0.3em; position: relative; top: -2px;}
+#courseguide .editable ul.hierarchicallisting li a.usereditable:before {background: url('/images/icons/pencil.png') 18px center no-repeat; padding-right: 24px;}
+#courseguide .editable .usereditable {font-weight: bold; color: #603;}
+#courseguide form div.modulessection {width: 778px;}
+#courseguide div.contentsection ul li, #courseguide div.contentsection ol li {margin-top: 9px;}
+#courseguide div.modulessection {border: 1px dashed #aaa; padding: 10px; min-height: 120px;}
+#_courseguide ul.editlink {clear: right;}
+#courseguide p.inpageeditingbutton {margin-top: 30px; margin-bottom: 30px;}
+#courseguide p.inpageeditingbutton a {background-color: #f3f3f3; border-color: green; border-width: 2px;}
+#courseguide p.printedat {display: none;}
+#courseguide form #status {width: 778px; background-color: #eee; padding: 10px; margin-top: 20px; border: 1px solid gray;}
+#courseguide form #status label {font-size: 1.2em;}
+#courseguide p.pdflink {position: relative; top: -12px;}
+#courseguide p.pdflink.actions a {padding-left: 20px;}	/* Fix up .actions override */
+#courseguide div.staffonly, #courseguide div.editoronly {opacity: 0.6;}
+#courseguide tr.visibleToStudents td label {width: 125px; display: inline-block;}
+@media print {
+	#courseguide p.printedat {clear: right; display: block; float: right; font-style: italic;}
+	#courseguide ul.tabs {display: none;}
+	#courseguide .contentsection a:link:after, #courseguide .contentsection a:visited:after {content: " [" attr(href) "] ";}
+	body #footer {display: none;}
+}

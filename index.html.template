@@ -1,0 +1,27 @@
+<?php
+
+# Define the settings
+$settings = array (
+	'password' => 'the_password',
+	'usersAutocomplete' => '/database/data.html',
+	'userIsStaffCallback' => 'userIsStaffCallback',
+	'userNameCallback' => 'userNameCallback',
+);
+
+# Callback function to determine if the user is a member of staff; this function will only be called if a user is signed in
+function userIsStaffCallback ($username)
+{
+	// Function returning bool true or false
+}
+
+# Callback function to get the full name of a user
+function userNameCallback ($username)
+{
+	// Function returning string, e.g. 'Jane Smith'
+}
+
+# Load and run the application
+require_once ('courseguide.php');
+new courseguide ($settings);
+
+?>
