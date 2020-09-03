@@ -10,19 +10,20 @@ class courseguide extends frontControllerApplication
 		# Specify available arguments as defaults or as NULL (to represent a required argument)
 		$defaults = array (
 			'applicationName' => 'Course guide',
+			'div' => strtolower (__CLASS__),
 			'administrators' => true,
 			'hostname' => 'localhost',
 			'database' => 'courseguide',
 			'username' => 'courseguide',
 			'password' => NULL,
 			'table' => false,
-			'div' => strtolower (__CLASS__),
+			'databaseStrictWhere' => true,
 			'tabUlClass' => 'tabsflat',
 			'jQuery' => true,
 			'usersAutocomplete' => false,
-			'databaseStrictWhere' => true,
 			'userIsStaffCallback' => 'userIsStaffCallback',		// Callback function
 			'userNameCallback' => 'userNameCallback',			// Callback function
+			'richtextEditorAreaCSS' => array (),
 		);
 		
 		# Return the defaults
@@ -1678,7 +1679,7 @@ class courseguide extends frontControllerApplication
 			'unsavedDataProtection' => true,
 			//'autofocus' => true,	// #!# Disabled until bug fixed where dataBinding is internally set after manual fields, meaning manual fields at end of form get autofocus
 			'jQuery' => false,		// Already loaded on the page
-			'richtextEditorAreaCSS' => array (),
+			'richtextEditorAreaCSS' => $this->settings['richtextEditorAreaCSS'],
 			'richtextEditorToolbarSet' => 'BasicLongerFormat',
 			'richtextWidth' => 800,
 			'richtextHeight' => 250,
