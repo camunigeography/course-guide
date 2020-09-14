@@ -69,6 +69,121 @@ class courseguide extends frontControllerApplication
 	}
 	
 	
+	# Database structure definition
+	public function databaseStructure ()
+	{
+		return "
+			
+			-- Administrators
+			CREATE TABLE `administrators` (
+			  `username__JOIN__people__people__reserved` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Username',
+			  `active` enum('','Yes','No') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Yes' COMMENT 'Currently active?',
+			  `receiveEmail` enum('','Yes','No') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Yes' COMMENT 'Receive e-mail notifications?',
+			  `privilege` enum('Administrator','Restricted administrator') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Administrator' COMMENT 'Administrator level',
+			  PRIMARY KEY (`username__JOIN__people__people__reserved`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='System administrators';
+			
+			-- Field trips
+			CREATE TABLE `fieldtrips` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `nodeId` int NOT NULL COMMENT 'Node',
+			  `staff` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Staff',
+			  `datesRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Dates',
+			  `mainRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Aims, objectives and information',
+			  `editedBy` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Edited by',
+			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of field trips';
+			
+			-- Modules
+			CREATE TABLE `modules` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `nodeId` int NOT NULL COMMENT 'Node',
+			  `coordinator` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Section co-ordinator',
+			  `contributor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Contributor',
+			  `mainRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Main text',
+			  `lecturesRichtext` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Lectures',
+			  `readingsRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Key readings',
+			  `editedBy` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Edited by',
+			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Modules';
+			
+			-- Main table of nodes representing the course structure
+			CREATE TABLE `nodes` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `academicYear` varchar(9) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Academic year',
+			  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Title',
+			  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Type',
+			  `moniker` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Web address',
+			  `parentId` int NOT NULL COMMENT 'Within',
+			  `ordering` int NOT NULL DEFAULT '5' COMMENT 'Order (1=earliest)',
+			  `pageBreakBefore` int DEFAULT NULL COMMENT 'Page break before?',
+			  `editors` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Editable by',
+			  `currentlyWith` enum('Editors','Administrators') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Editors' COMMENT 'Control currently with',
+			  `status` enum('Draft','Finalised') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Draft' COMMENT 'Finalisation status of entry',
+			  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Structure of courses';
+			
+			-- Optional papers
+			CREATE TABLE `optionalpapers` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `nodeId` int NOT NULL COMMENT 'Node',
+			  `coordinator` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Section co-ordinator',
+			  `contributors` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Contributors',
+			  `overviewRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Overview',
+			  `lecturesRichtext` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Lectures',
+			  `readingsRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Key readings',
+			  `timetablingRichtext` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Timetabling',
+			  `modeOfAssessmentRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Mode of assessment',
+			  `fieldtripsPracticalsRichtext` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Field trips / practicals',
+			  `supervisionsRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Supervisions',
+			  `editedBy` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Edited by',
+			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of optional papers';
+			
+			-- Pages
+			CREATE TABLE `pages` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `nodeId` int NOT NULL COMMENT 'Node',
+			  `pageRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Text of page',
+			  `editedBy` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Edited by',
+			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of pages';
+			
+			-- Papers
+			CREATE TABLE `papers` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key',
+			  `nodeId` int NOT NULL COMMENT 'Node',
+			  `coordinator` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Section co-ordinator',
+			  `contributors` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Contributors',
+			  `overviewRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Overview',
+			  `readingsRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'General readings',
+			  `modules` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Modules',
+			  `timetablingRichtext` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Timetabling',
+			  `modeOfAssessmentRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Mode of assessment',
+			  `fieldtripsPracticalsRichtext` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Field trips / practicals',
+			  `supervisionsRichtext` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Supervisions',
+			  `editedBy` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Edited by',
+			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Papers';
+			
+			-- Settings
+			CREATE TABLE `settings` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)',
+			  `academicYearEarliestEditable` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Earliest editable academic year (earlier years locked)',
+			  `visibleToStudents` mediumtext COLLATE utf8mb4_unicode_ci COMMENT 'Sections/years visible to students',
+			  `academicYearStartsMonth` int NOT NULL DEFAULT '8' COMMENT '''Current'' year starts on month',
+			  PRIMARY KEY (`id`)
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Settings';
+		";
+	}
+	
+	
 	# Additional processing, run before actions is processed
 	function mainPreActions ()
 	{
