@@ -2135,7 +2135,7 @@ class courseguide extends frontControllerApplication
 		
 		# Load diff support if required
 		if ($compareWith) {
-			require_once ('htmldiff/htmldiff/html_diff.php');
+			require_once ('htmldiff/html_diff.php');
 		}
 		
 		# Assemble the template placeholder headings
