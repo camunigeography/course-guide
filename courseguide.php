@@ -371,7 +371,7 @@ class courseguide extends frontControllerApplication
 		$selected = $this->academicYearToUrl ($this->academicYear);
 		
 		# Compile as HTML
-		$html = pureContent::htmlJumplist ($academicYearList, $selected, $action = '', $name = 'jumplist', $parentTabLevel = 0, $class = 'jumplist noprint', $introductoryText = 'Academic year:');
+		$html = application::htmlJumplist ($academicYearList, $selected, $action = '', $name = 'jumplist', $parentTabLevel = 0, $class = 'jumplist noprint', $introductoryText = 'Academic year:');
 		
 		# Add 'Printed at' date
 		$html .= "\n<p class=\"printedat\">Printed at: " . date ('g:ia, jS F Y') . '</p>';
@@ -1982,8 +1982,7 @@ class courseguide extends frontControllerApplication
 		$isOlderVersion = ($displayedVersion != $latestVersion);
 		
 		# Compile the HTML and register a jumplist processor
-		$html  = pureContent::htmlJumplist ($values, $selected, $_SERVER['_PAGE_URL'], $name = 'version', $parentTabLevel = 0, $class = 'jumplist right', ($isOlderVersion ? "Compare this <span class=\"warning\"><strong>v{$displayedVersion}</strong></span> from:" : 'Compare from:'));
-		pureContent::jumplistProcessor ($name);
+		$html = application::htmlJumplist ($values, $selected, $_SERVER['_PAGE_URL'], $name = 'version', $parentTabLevel = 0, $class = 'jumplist right', ($isOlderVersion ? "Compare this <span class=\"warning\"><strong>v{$displayedVersion}</strong></span> from:" : 'Compare from:'));
 		
 		# Return the HTML
 		return $html;
