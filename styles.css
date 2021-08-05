@@ -24,6 +24,8 @@
 #courseguide p.pdflink.actions a {padding-left: 20px;}	/* Fix up .actions override */
 #courseguide div.staffonly, #courseguide div.editoronly {opacity: 0.6;}
 #courseguide tr.visibleToStudents td label {width: 125px; display: inline-block;}
+#courseguide .diff-html-removed {background-color: pink; font-weight: bold;}
+#courseguide .diff-html-added {background-color: lightgreen; font-weight: bold;}
 @media print {
 	#courseguide p.printedat {clear: right; display: block; float: right; font-style: italic;}
 	#courseguide ul.tabs {display: none;}
