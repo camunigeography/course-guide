@@ -649,7 +649,10 @@ class courseguide extends frontControllerApplication
 				foreach ($types[$type]['fields'] as $field => $attributes) {
 					if (in_array ($field, $internalFields)) {continue;}		// Skip internal fields
 					$types[$type]['template'] .= "\n" . '{heading:' . $field . '}';
-					$types[$type]['template'] .= "\n" . '{' . $field . '}';
+					$types[$type]['template'] .= "\n";
+					if (substr_count (strtolower ($attributes['Type']), 'varchar')) {$types[$type]['template'] .= '<p>';}
+					$types[$type]['template'] .= '{' . $field . '}';
+					if (substr_count (strtolower ($attributes['Type']), 'varchar')) {$types[$type]['template'] .= '</p>';}
 				}
 			}
 		}
@@ -2164,7 +2167,7 @@ class courseguide extends frontControllerApplication
 			# Skip empty text entries in view mode
 			if (!$editingMode && ($value === NULL)) {$viewModeIsOptionalEmpty = true;}
 			
-			# Asssemble the heading
+			# Assemble the heading
 			$placeholderHeading = '{heading:' . $field . '}';
 			$placeholders[$placeholderHeading] = ($viewModeIsOptionalEmpty ? '' : '<h3>' . htmlspecialchars ($attributes['Comment']) . ($isOptional && $editingMode ? ' &nbsp; <em>(optional)</em>' : '') . ($visibleToStaffOnly ? ' &nbsp; <em>(Private: visible only to staff)</em>' : '') . ($visibleToEntryEditorsOnly ? ' &nbsp; <em>(Private: visible only to entry editors)</em>' : '') . '</h3>');
 			
@@ -2202,10 +2205,10 @@ class courseguide extends frontControllerApplication
 		}
 		
 		# Substitute the placeholders in the template
-		$template = strtr ($template, $placeholders);
+		$html = strtr ($template, $placeholders);
 		
 		# Return the processed template
-		return $template;
+		return $html;
 	}
 	
 	
