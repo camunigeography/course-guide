@@ -771,15 +771,15 @@ class courseguide extends frontControllerApplication
 					$list[] = "<a href=\"{$container['url']}\">" . htmlspecialchars ($container['name']) . '</a>' . (!$visibleToStudents ? '<span class="warning"> (Not visible to students)</span>' : '');
 				} else {
 					#!# Should be not "currently" then "yet" when in/after current year
-					$list[] = '<span class="comment">' . htmlspecialchars ($container['name']) . ' (Not yet available)</span>';
+					$list[] = '<span class="comment">' . htmlspecialchars ($container['name']) . ' (Not yet available to students)</span>';
 				}
 			}
 			$html .= $this->yearSelectionDroplist ();
 			$html .= "\n<p>Please select a section to view:</p>";
 			$html .= application::htmlUl ($list);
 			if (isSet ($this->actions['edit'])) {
-				$html .= "\n<h2>Edit sections</h2>";
-				$html .= "\n<p class=\"inpageeditingbutton\"><a class=\"actions\" href=\"{$this->baseUrl}/edit/{$this->academicYear}/\"><img src=\"/images/icons/pencil.png\" alt=\"\" class=\"icon\" /> <strong>Edit your sections</strong></a></p>";
+				$html .= "\n<h2>View/edit sections</h2>";
+				$html .= "\n<p class=\"inpageeditingbutton\"><a class=\"actions\" href=\"{$this->baseUrl}/edit/{$this->academicYear}/\"><img src=\"/images/icons/pencil.png\" alt=\"\" class=\"icon\" /> <strong>View/edit your sections</strong></a></p>";
 			}
 			echo $html;
 			return false;
