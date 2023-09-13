@@ -24,6 +24,7 @@ class courseguide extends frontControllerApplication
 			'userIsStaffCallback' => 'userIsStaffCallback',		// Callback function
 			'userNameCallback' => 'userNameCallback',			// Callback function
 			'richtextEditorAreaCSS' => array (),
+			'richtextEditorConfig.bodyClass' => false,
 		);
 		
 		# Return the defaults
@@ -1798,6 +1799,7 @@ class courseguide extends frontControllerApplication
 			//'autofocus' => true,	// #!# Disabled until bug fixed where dataBinding is internally set after manual fields, meaning manual fields at end of form get autofocus
 			'jQuery' => false,		// Already loaded on the page
 			'richtextEditorAreaCSS' => $this->settings['richtextEditorAreaCSS'],
+			'richtextEditorConfig.bodyClass' => $this->settings['richtextEditorConfig.bodyClass'],
 			'richtextEditorToolbarSet' => 'BasicLongerFormat',
 			'richtextWidth' => 800,
 			'richtextHeight' => 250,
