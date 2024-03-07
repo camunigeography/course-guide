@@ -2,7 +2,7 @@
 
 #   Example usage in httpd.conf:
 #   
-#   # Assessments
+#   # Course guide
 #   Include /path/to/course-guide/.httpd.conf.extract.txt
 #   Use MacroCourseGuide "/teaching/courseguide" "Course guide"
 
