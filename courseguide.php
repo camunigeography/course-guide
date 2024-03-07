@@ -81,7 +81,7 @@ class courseguide extends frontControllerApplication
 			  `receiveEmail` enum('','Yes','No') NOT NULL DEFAULT 'Yes' COMMENT 'Receive e-mail notifications?',
 			  `privilege` enum('Administrator','Restricted administrator') NOT NULL DEFAULT 'Administrator' COMMENT 'Administrator level',
 			  PRIMARY KEY (`username__JOIN__people__people__reserved`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='System administrators';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='System administrators';
 			
 			-- Field trips
 			CREATE TABLE `fieldtrips` (
@@ -93,7 +93,7 @@ class courseguide extends frontControllerApplication
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of field trips';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of field trips';
 			
 			-- Modules
 			CREATE TABLE `modules` (
@@ -107,7 +107,7 @@ class courseguide extends frontControllerApplication
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Modules';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Modules';
 			
 			-- Main table of nodes representing the course structure
 			CREATE TABLE `nodes` (
@@ -124,7 +124,7 @@ class courseguide extends frontControllerApplication
 			  `status` enum('Draft','Finalised') NOT NULL DEFAULT 'Draft' COMMENT 'Finalisation status of entry',
 			  `createdAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Structure of courses';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Structure of courses';
 			
 			-- Optional papers
 			CREATE TABLE `optionalpapers` (
@@ -142,7 +142,7 @@ class courseguide extends frontControllerApplication
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of optional papers';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of optional papers';
 			
 			-- Pages
 			CREATE TABLE `pages` (
@@ -152,7 +152,7 @@ class courseguide extends frontControllerApplication
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of pages';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of pages';
 			
 			-- Papers
 			CREATE TABLE `papers` (
@@ -170,7 +170,7 @@ class courseguide extends frontControllerApplication
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Papers';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Papers';
 			
 			-- Settings
 			CREATE TABLE `settings` (
@@ -179,7 +179,7 @@ class courseguide extends frontControllerApplication
 			  `visibleToStudents` mediumtext COMMENT 'Sections/years visible to students',
 			  `academicYearStartsMonth` int NOT NULL DEFAULT '8' COMMENT '''Current'' year starts on month',
 			  PRIMARY KEY (`id`)
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Settings';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Settings';
 		";
 	}
 	
