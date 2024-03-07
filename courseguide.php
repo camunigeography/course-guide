@@ -1,7 +1,6 @@
 <?php
 
 # Class to create an online courseguide system
-require_once ('frontControllerApplication.php');
 class courseguide extends frontControllerApplication
 {
 	# Function to assign defaults additional to the general application defaults
@@ -189,7 +188,6 @@ class courseguide extends frontControllerApplication
 	function mainPreActions ()
 	{
 		# Current academic year for today's date
-		require_once ('timedate.php');
 		$this->currentAcademicYear = timedate::academicYear ($this->settings['academicYearStartsMonth'], true, true);
 		
 		# Parse out the settings for sections visible to students
@@ -272,9 +270,6 @@ class courseguide extends frontControllerApplication
 	# Additional processing
 	function main ()
 	{
-		# Load required libraries
-		require_once ('hierarchy.php');
-		
 		# For the academic year moniker, if in editing mode, do not permit 'current'
 		if ($this->action == 'edit') {
 			$this->academicYearUrlMoniker = $this->academicYear;
@@ -2140,7 +2135,7 @@ class courseguide extends frontControllerApplication
 		
 		# Load diff support if required
 		if ($compareWith) {
-			require_once ('htmldiff/html_diff.php');
+			require_once ('vendor/brownbear/php-html-diff/src/PhpHtmlDiff/lib/html_diff.php');
 		}
 		
 		# Assemble the template placeholder headings

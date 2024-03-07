@@ -4,15 +4,11 @@
 #   
 #   # Assessments
 #   Include /path/to/course-guide/.httpd.conf.extract.txt
-#   Use MacroCourseGuide "/teaching/courseguide" "Course guide" "/path/to/course-guide/:/path/to/php/libraries/"
+#   Use MacroCourseGuide "/teaching/courseguide" "Course guide"
 
 
 # Course guide
-<Macro MacroCourseGuide $applicationBaseUrl $description $includePath>
-	
-	<Location $applicationBaseUrl>
-		php_value include_path "$includePath"
-	</Location>
+<Macro MacroCourseGuide $applicationBaseUrl $description>
 	
 	Use MacroFrontControllerApplication "$applicationBaseUrl/" "$description"
 	

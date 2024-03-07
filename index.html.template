@@ -21,7 +21,7 @@ function userNameCallback ($username)
 }
 
 # Load and run the application
-require_once ('courseguide.php');
+require_once ('vendor/autoload.php');
 new courseguide ($settings);
 
 ?>
