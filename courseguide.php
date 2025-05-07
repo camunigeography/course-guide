@@ -139,6 +139,7 @@ class courseguide extends frontControllerApplication
 			  `modeOfAssessmentRichtext` mediumtext NOT NULL COMMENT 'Mode of assessment',
 			  `fieldtripsPracticalsRichtext` mediumtext COMMENT 'Field trips / practicals',
 			  `supervisionsRichtext` mediumtext NOT NULL COMMENT 'Supervisions',
+			  `aiRichtext` mediumtext NOT NULL COMMENT 'AI',
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
@@ -167,6 +168,7 @@ class courseguide extends frontControllerApplication
 			  `modeOfAssessmentRichtext` mediumtext NOT NULL COMMENT 'Mode of assessment',
 			  `fieldtripsPracticalsRichtext` mediumtext COMMENT 'Field trips / practicals',
 			  `supervisionsRichtext` mediumtext NOT NULL COMMENT 'Supervisions',
+			  `aiRichtext` mediumtext NOT NULL COMMENT 'AI',
 			  `editedBy` varchar(255) NOT NULL COMMENT 'Edited by',
 			  `savedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved at',
 			  PRIMARY KEY (`id`)
