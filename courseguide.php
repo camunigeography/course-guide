@@ -1064,8 +1064,9 @@ class courseguide extends frontControllerApplication
 			DELETE FROM papers WHERE nodeId IN (SELECT id FROM nodes where academicYear = 'XXXX-YY');
 			DELETE FROM nodes WHERE academicYear = 'XXXX-YY';
 		*/
-		if (!$this->cloneyearEntries ($nodeIds)) {
-			$html .= "<p>{$this->cross} There was a problem cloning the entries. Please contact the Webmaster.</p>";
+		if (!$this->cloneyearEntries ($nodeIds, $errorText /* returned by reference */)) {
+			$html .= "\n<p>{$this->cross} There was a problem cloning the entries. Please contact the Webmaster.</p>";
+			$html .= "\n<p>The database error was: <tt>" . htmlspecialchars ($errorText) . '</tt></p>';
 			echo $html;
 			return false;
 		}
@@ -1128,7 +1129,7 @@ class courseguide extends frontControllerApplication
 	
 	
 	# Function to clone an academic year's set of data
-	private function cloneyearEntries ($nodeIds)
+	private function cloneyearEntries ($nodeIds, &$errorText = '')
 	{
 		# Get the current entries data
 		$data = $this->getEntries (array_keys ($nodeIds));
@@ -1159,7 +1160,11 @@ class courseguide extends frontControllerApplication
 			if (!$inserts) {continue;}
 			
 			# Do the inserts
-			if (!$this->databaseConnection->insertMany ($this->settings['database'], $table, $inserts)) {return false;}
+			if (!$this->databaseConnection->insertMany ($this->settings['database'], $table, $inserts)) {
+				$error = $this->databaseConnection->error ();
+				$errorText = "Error in insertMany for table '{$table}' was \"" . $error[2] . '"';
+				return false;
+			}
 		}
 		
 		# Return success
