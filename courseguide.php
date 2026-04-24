@@ -1080,10 +1080,8 @@ class courseguide extends frontControllerApplication
 		# Get the current nodes
 		$currentNodes = $this->databaseConnection->select ($this->settings['database'], 'nodes', array ('academicYear' => $academicYearCurrent), array (), true, $orderBy = 'id');
 		
-		# Get the max record ID in the table, so that the next available number can be assigned
-		$query = "SELECT MAX(id) AS highest FROM {$this->settings['database']}.nodes;";
-		$maxRecordId = $this->databaseConnection->getOneField ($query, 'highest');
-		$startAt = $maxRecordId + 1 + 10;	// Gap of 10 to deal with changes while this function is being run
+		# Assign the starting number; for convenience of debugging, rather than use an incremented starting point, set nodes to have the academic year (minus the hyphen) as a prefix, followed by 0001 then incremented, e.g. 2027280000, 2027280001, etc.
+		$startAt = (int) str_replace ('-', '', $academicYearNew) . '0000';
 		
 		# Determine the new IDs, creating a mapping from old => new
 		$nodeIds = array ();
