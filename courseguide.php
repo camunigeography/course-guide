@@ -1056,6 +1056,14 @@ class courseguide extends frontControllerApplication
 		}
 		
 		# Clone the entries in each table
+		/* If this fails, a rollback would be as follows, where XXXX-YY is the academic year string:
+			DELETE FROM fieldtrips WHERE nodeId IN (SELECT id FROM nodes where academicYear = 'XXXX-YY');
+			DELETE FROM modules WHERE nodeId IN (SELECT id FROM nodes where academicYear = 'XXXX-YY');
+			DELETE FROM optionalpapers WHERE nodeId IN (SELECT id FROM nodes where academicYear = 'XXXX-YY');
+			DELETE FROM pages WHERE nodeId IN (SELECT id FROM nodes where academicYear = 'XXXX-YY');
+			DELETE FROM papers WHERE nodeId IN (SELECT id FROM nodes where academicYear = 'XXXX-YY');
+			DELETE FROM nodes WHERE academicYear = 'XXXX-YY';
+		*/
 		if (!$this->cloneyearEntries ($nodeIds)) {
 			$html .= "<p>{$this->cross} There was a problem cloning the entries. Please contact the Webmaster.</p>";
 			echo $html;
