@@ -858,11 +858,21 @@ class courseguide extends frontControllerApplication
 	}
 	
 	
-	# Function to get the entries for the specified academic year
+	# Function to get the entries for the specified academic year, by type
 	private function getEntries ($nodeIds)
 	{
 		# Start an array of entries
 		$entries = array ();
+		
+		# Group the nodes by type, looking up the type, so that the entries for each type can be scoped only to that type
+		# In theory, the SELECT below should not pick up any entries of mismatching type, but there may be orphans in the content types from when a type has been changed, so it is important for the main query to scope the nodeIds by type
+		$query = "SELECT id,type FROM {$this->settings['database']}.nodes WHERE id IN(" . implode (',', $nodeIds) . ');';
+		$nodesWithType = $this->databaseConnection->getData ($query, "{$this->settings['database']}.nodes");
+		$nodesIdsByType = array ();
+		foreach ($nodesWithType as $nodeId => $node) {
+			if (!isSet ($nodesByType[$node['type']])) {$nodesByType[$node['type']] = array ();}
+			$nodesIdsByType[$node['type']][] = $nodeId;
+		}
 		
 		# Get data for each object type
 		foreach ($this->types as $type => $attributes) {
@@ -870,14 +880,17 @@ class courseguide extends frontControllerApplication
 			# Skip types that have no table
 			if (!$attributes['table']) {continue;}
 			
-			# Construct a query to extract the highest-numbered items in the table; see: http://stackoverflow.com/a/1313293
+			# Skip types that have no nodes
+			if (!isSet ($nodesIdsByType[$type]) || !$nodesIdsByType[$type]) {continue;}
+			
+			# Construct a query to extract the highest-numbered items in the table; see: https://stackoverflow.com/a/1313293
 			$query = "
 				SELECT items1.*
 				FROM {$this->settings['database']}.{$attributes['table']} AS items1
 				LEFT JOIN {$this->settings['database']}.{$attributes['table']} AS items2 ON (items1.nodeId = items2.nodeId AND items1.id < items2.id)
 				WHERE
 					    items2.id IS NULL
-					AND items1.nodeId IN(" . implode (',', $nodeIds) . ")
+					AND items1.nodeId IN(" . implode (',', $nodesIdsByType[$type]) . ")
 			;";
 			$entries[$type] = $this->databaseConnection->getData ($query, 'nodeId');	// Index on nodeId so this can be easily looked-up
 		}
@@ -1086,7 +1099,7 @@ class courseguide extends frontControllerApplication
 	# Function to clone an academic year's set of nodes
 	private function cloneyearNodes ($academicYearCurrent, $academicYearNew)
 	{
-		# Get the current nodes
+		# Get the current nodes, which will have various types, e.g. 1200 - optionalpaper, 1201 - paper, 1202 - module, etc.
 		$currentNodes = $this->databaseConnection->select ($this->settings['database'], 'nodes', array ('academicYear' => $academicYearCurrent), array (), true, $orderBy = 'id');
 		
 		# Assign the starting number; for convenience of debugging, rather than use an incremented starting point, set nodes to have the academic year (minus the hyphen) as a prefix, followed by 0001 then incremented, e.g. 2027280000, 2027280001, etc.
@@ -1163,6 +1176,7 @@ class courseguide extends frontControllerApplication
 			if (!$this->databaseConnection->insertMany ($this->settings['database'], $table, $inserts)) {
 				$error = $this->databaseConnection->error ();
 				$errorText = "Error in insertMany for table '{$table}' was \"" . $error[2] . '"';
+				//application::dumpData ($inserts);
 				return false;
 			}
 		}
