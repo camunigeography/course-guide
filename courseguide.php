@@ -927,7 +927,7 @@ class courseguide extends frontControllerApplication
 	
 	
 	# Function to show an individual entry (which includes replacing the submodule placeholder if in a course)
-	private function showEntry (&$entry /* Passed by reference, as $entry['_children'] is modified below */, $level = 1, $showInPageLink, /* private */ $nextHeadingHasPageBreak)
+	private function showEntry (&$entry /* Passed by reference, as $entry['_children'] is modified below */, $level, $showInPageLink, /* private */ $nextHeadingHasPageBreak)
 	{
 		# Start the HTML
 		$html = '';
