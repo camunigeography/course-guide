@@ -1,8 +1,52 @@
 <?php
 
+#!# Prevent removal of intermediate nodes to avoid crashing the tree generation
+#!# Usability: Can be confusing to admins that the course view page is very similar to the editing side view page, so admins might send an editor the wrong URL in an e-mail - see correspondence 13/Sep/2023
+
+
+
+/*
+
+Submission review/locking system:
+
+[=] 1) Determine person with responsibility: i.e. first of edited by, else (if no edited by) first inherited editors, else admins
+
+[M] 2) Person with responsibility (OR admin) gets button to say its finalised (Save as draft / Submit as finalised)
+
+3) Admins can change status of finalisation in the structure page. If re-opened, then notification to responsibility, and there is a field where admin can add quick note included in e-mail.
+
+[=] 4) Admins need a field to say whether they get e-mail
+
+5) Notification: when submitter presses "Submit as finalised" then e-mail goes to all Administrators who receive notifications + cc: to other people listed, containing link to the content page
+
+[=] ,6) At each node, show icon on listing page for whether finalised or not
+
+[=] 7) Clone process at end of year needs to set all finalised statutes to "in draft"
+
+*/
+
+
 # Class to create an online courseguide system
 class courseguide extends frontControllerApplication
 {
+	# Class properties
+	private $currentAcademicYear;
+	private $visibleToStudents;
+	private $academicYears;
+	private $academicYear;
+	private $academicYearUrlMoniker;
+	private $academicYearEditingEnabled;
+	private $userHasEditableSections;
+	private $metadata;
+	private $containers;
+	private $container;
+	private $types;
+	private $entries;
+	private $hierarchy;
+	private $structure;
+	
+	
+	
 	# Function to assign defaults additional to the general application defaults
 	function defaults ()
 	{
