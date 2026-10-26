@@ -2197,7 +2197,7 @@ class courseguide extends frontControllerApplication
 		# When viewing, remove entries containing only a dash (-)
 		if (!$editingMode) {
 			foreach ($data as $field => $value) {
-				$textOnlyVersion = trim (strip_tags ($value));
+				$textOnlyVersion = (!is_null ($value) ? trim (strip_tags ($value)) : $value);
 				if ($textOnlyVersion == self::EMPTY_TEXT) {
 					$data[$field] = NULL;
 				}
@@ -2227,7 +2227,7 @@ class courseguide extends frontControllerApplication
 			if ($field == 'modules') {$isOptional = false;}		// 'modules' (present in the papers table only) is basically just a marker to make in-loop insertion easier; users never enter text for it
 			
 			# In view mode, do not show optional headings whose value is empty
-			$viewModeIsOptionalEmpty = (!$editingMode && $isOptional && !strlen ($value));
+			$viewModeIsOptionalEmpty = (!$editingMode && $isOptional && (is_null ($value) || !strlen ($value)));
 			
 			# Skip the 'Text of page' heading
 			if ($field == 'pageRichtext') {$viewModeIsOptionalEmpty = true;}
